@@ -42,8 +42,11 @@ public class Cell {
 	///TODO: getFirstPotential
 	//This method will return the first number that a cell can possibly be.
 	public int getFirstPotential() {
-		//make compiler happy while coding other bits
-		return 1;
+		for(int i = 1; i < 9; i++) {
+			if(potential[i])
+				return i;
+		}
+		return 0;
 	}
 	
 	
