@@ -1,5 +1,3 @@
-package codes;
-
 public class Cell {
 	/*A Cell represents a single square on the Sudoku Game Board. 
 	 * It knows it's number - 0 means it is not solved.
@@ -20,30 +18,29 @@ public class Cell {
 	
 	///TODO: canBe 
 	//This method returns TRUE or False depending on whether the cell has the potential to be number
-	public boolean canBe(int number)
-	{
-		
+	public boolean canBe(int number) {
+		if(potential[number])
+			return true;
+		return false;
 	}
 	
 	///TODO: cantBe
 	//This sets the potential array to be false for a given number
-	public void cantBe(int number)
-	{
-		
+	public void cantBe(int number) {
 	}
 	
 	///TODO: numberOfPotentials
 	//This method returns a count of the number of potential numbers that the cell could be.
-	public int numberOfPotentials()
-	{
-		
+	public int numberOfPotentials() {
+		//make compiler happy while coding other bits
+		return 1;
 	}
 	
 	///TODO: getFirstPotential
 	//This method will return the first number that a cell can possibly be.
-	public int getFirstPotential()
-	{
-		
+	public int getFirstPotential() {
+		//make compiler happy while coding other bits
+		return 1;
 	}
 	
 	
@@ -57,11 +54,7 @@ public class Cell {
 	// This method sets the number for the cell but also sets all of the potentials for the cell (except for the solved number)
 	//		to be false
 	public void setNumber(int number) {
-		
-		
 	}
-	
-	
 	
 	public boolean[] getPotential() {
 		return potential;

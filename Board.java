@@ -1,5 +1,3 @@
-package codes;
-
 import java.io.File;
 import java.util.Scanner;
 
@@ -68,6 +66,8 @@ public class Board{
 	 */
 	public boolean isSolved()
 	{
+		//make compiler happy while coding other bits
+		return true;
 		
 	}
 
@@ -176,8 +176,9 @@ public class Board{
 	 * any number.
 	 */
 	public boolean errorFound()
-	{
-		
+	{	
+		//make compiler happy while coding other bits
+		return true;
 	}
 	
 	
