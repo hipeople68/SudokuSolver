@@ -29,11 +29,14 @@ public class Cell {
 	public void cantBe(int number) {
 	}
 	
-	///TODO: numberOfPotentials
 	//This method returns a count of the number of potential numbers that the cell could be.
 	public int numberOfPotentials() {
-		//make compiler happy while coding other bits
-		return 1;
+		int count = 0;
+		for(int i = 1; i < 9; i++) {
+			if(potential[i])
+				count++;
+		}
+		return count;
 	}
 	
 	///TODO: getFirstPotential
