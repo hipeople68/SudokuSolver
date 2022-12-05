@@ -77,7 +77,19 @@ public class Board{
 	 * as well as lines indicating the outer border of the puzzle
 	 */
 	public void display() {
-		
+		for(int i = 0; i < 13; i++) {
+			for(int k = 0; k < 13; k++) {
+				if(i%4==0)
+					System.out.print("--");
+				else {
+					if(k%4==0)
+						System.out.print("| ");
+					else
+						System.out.print(board[k-(1+k/4)][i-(1+i/4)].getNumber()+" ");
+				}
+			}
+			System.out.println();
+		}
 	}
 	
 	///TODO: solve
@@ -183,3 +195,18 @@ public class Board{
 	
 	
 }
+/*
+=============
+|   |   |   |
+|   |   |   |
+|   |   |   |
+=============
+|   |   |   |
+|   |   |   |
+|   |   |   |
+=============
+|   |   |   |
+|   |   |   |
+|   |   |   |
+=============
+*/
