@@ -64,11 +64,14 @@ public class Board{
 	/*This method scans the board and returns TRUE if every cell has been solved.  Otherwise it returns FALSE
 	 * 
 	 */
-	public boolean isSolved()
-	{
-		//make compiler happy while coding other bits
+	public boolean isSolved() {
+		for(int i = 0; i < 10; i++) {
+			for(int k = 0; k < 10; k++) {
+				if(board[k][i].getNumber()==0)
+					return false;
+			}
+		}
 		return true;
-		
 	}
 
 
@@ -195,18 +198,3 @@ public class Board{
 	
 	
 }
-/*
-=============
-|   |   |   |
-|   |   |   |
-|   |   |   |
-=============
-|   |   |   |
-|   |   |   |
-|   |   |   |
-=============
-|   |   |   |
-|   |   |   |
-|   |   |   |
-=============
-*/
