@@ -27,12 +27,13 @@ public class Cell {
 	///TODO: cantBe
 	//This sets the potential array to be false for a given number
 	public void cantBe(int number) {
+		potential[number] = false;
 	}
 	
 	//This method returns a count of the number of potential numbers that the cell could be.
 	public int numberOfPotentials() {
 		int count = 0;
-		for(int i = 1; i < 9; i++) {
+		for(int i = 1; i < 11; i++) {
 			if(potential[i])
 				count++;
 		}
@@ -42,7 +43,7 @@ public class Cell {
 	///TODO: getFirstPotential
 	//This method will return the first number that a cell can possibly be.
 	public int getFirstPotential() {
-		for(int i = 1; i < 9; i++) {
+		for(int i = 1; i < 11; i++) {
 			if(potential[i])
 				return i;
 		}
@@ -60,6 +61,11 @@ public class Cell {
 	// This method sets the number for the cell but also sets all of the potentials for the cell (except for the solved number)
 	//		to be false
 	public void setNumber(int number) {
+		this.number = number;
+		for(int i = 0; i < 11; i++) {
+			potential[i] = false;
+		}
+		potential[number] = true;
 	}
 	
 	public boolean[] getPotential() {

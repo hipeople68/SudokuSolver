@@ -76,8 +76,7 @@ public class Board{
 	/*This method displays the board neatly to the screen.  It must have dividing lines to show where the box boundaries are
 	 * as well as lines indicating the outer border of the puzzle
 	 */
-	public void display()
-	{
+	public void display() {
 		
 	}
 	
@@ -85,8 +84,7 @@ public class Board{
 	/*This method solves a single cell at x,y for number.  It also must adjust the potentials of the remaining cells in the same row,
 	 * column, and box.
 	 */
-	public void solve(int x, int y, int number)
-	{
+	public void solve(int x, int y, int number) {
 		
 	}
 	
