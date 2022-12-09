@@ -65,8 +65,8 @@ public class Board{
 	 * 
 	 */
 	public boolean isSolved() {
-		for(int i = 0; i < 10; i++) {
-			for(int k = 0; k < 10; k++) {
+		for(int i = 0; i < 9; i++) {
+			for(int k = 0; k < 9; k++) {
 				if(board[k][i].getNumber()==0)
 					return false;
 			}
@@ -100,6 +100,15 @@ public class Board{
 	 * column, and box.
 	 */
 	public void solve(int x, int y, int number) {
+		int id = board[x][y].getBoxID();
+		for(int i = 0; i < 9; i++) {
+			for(int k = 0; k < 9; k++) {
+				if(i ==y || k == x || board[k][i].getBoxID() == id) {
+					board[x][y].cantBe(number);
+				}
+			}
+		}
+		board[x][y].setNumber(number);
 		
 	}
 	
@@ -110,6 +119,7 @@ public class Board{
 		
 		while(isSolved() == false)
 		{
+			display();
 			int changesMade = 0;
 			do
 			{
@@ -134,6 +144,15 @@ public class Board{
 	public int logic1()
 	{
 		int changesMade = 0;
+		for(int i = 0; i < 9; i++) {
+			for(int k = 0; k < 9; k++) {
+				if(board[k][i].numberOfPotentials()==1 && board[k][i].getNumber()==0) {
+					changesMade++;
+					System.out.println("1");
+					solve(k, i, board[k][i].getFirstPotential());
+				}
+			}
+		}
 
 		
 		return changesMade;
@@ -149,6 +168,34 @@ public class Board{
 	public int logic2()
 	{
 		int changesMade = 0;
+		boolean potential = false;
+		int x = -1;
+		int y = -1;
+		for(int i = 0; i < 9; i++) {
+			for(int num = 1; num < 10; num++) {
+				x = -1;
+				y = -1;
+				potential = false;
+				for(int k = 0; k < 9; k++) {
+					if(board[k][i].canBe(num) && board[k][i].getNumber()==0) {
+						if(x!=-1) {
+							potential = false;
+							break;
+						}
+						else {
+							x = k;
+							y = i;
+							potential = true;
+						}
+					}
+				}
+				if(potential) {
+					solve(x, y, num);
+					System.out.println("2");
+					changesMade++;
+				}
+			}
+		}
 			
 		return changesMade;
 	}
@@ -161,6 +208,40 @@ public class Board{
 	{
 	
 		int changesMade = 0;
+		boolean potential = false;
+		int x = -1;
+		int y = -1;
+		
+		for(int boxY = 0; boxY < 9; boxY+=3) {
+			for(int boxX = 0; boxX < 9; boxX+=3) {
+				for(int i = boxY; i < boxY+3; i++) {
+					for(int num = 1; num < 10; num ++) {
+						x = -1;
+						y = -1;
+						potential = false;
+						for(int k = boxX; k < boxX+3; k++) {
+							if(board[k][i].canBe(num) && board[k][i].getNumber()==0) {
+								if(x!=-1) {
+									potential = false;
+									break;
+								}
+								else {
+									x = k;
+									y = i;
+									potential = true;
+								}
+							}
+						}
+						if(potential) {
+							//System.out.println("pog");
+							System.out.println("3");
+							solve(x, y, num);
+							changesMade++;
+						}
+					}
+				}
+			}
+		}
 		return changesMade;
 	}
 	
@@ -188,13 +269,8 @@ public class Board{
 	/*This method scans the board to see if any logical errors have been made.  It can detect this by looking for a cell that no longer has the potential to be 
 	 * any number.
 	 */
-	public boolean errorFound()
-	{	
+	public boolean errorFound() {	
 		//make compiler happy while coding other bits
 		return true;
 	}
-	
-	
-	
-	
 }

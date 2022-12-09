@@ -33,7 +33,7 @@ public class Cell {
 	//This method returns a count of the number of potential numbers that the cell could be.
 	public int numberOfPotentials() {
 		int count = 0;
-		for(int i = 1; i < 11; i++) {
+		for(int i = 1; i < 10; i++) {
 			if(potential[i])
 				count++;
 		}
@@ -43,7 +43,7 @@ public class Cell {
 	///TODO: getFirstPotential
 	//This method will return the first number that a cell can possibly be.
 	public int getFirstPotential() {
-		for(int i = 1; i < 11; i++) {
+		for(int i = 1; i < 10; i++) {
 			if(potential[i])
 				return i;
 		}
@@ -62,7 +62,7 @@ public class Cell {
 	//		to be false
 	public void setNumber(int number) {
 		this.number = number;
-		for(int i = 0; i < 11; i++) {
+		for(int i = 0; i < 10; i++) {
 			potential[i] = false;
 		}
 		potential[number] = true;
