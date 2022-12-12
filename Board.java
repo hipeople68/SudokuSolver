@@ -104,12 +104,13 @@ public class Board{
 		for(int i = 0; i < 9; i++) {
 			for(int k = 0; k < 9; k++) {
 				if(i ==y || k == x || board[k][i].getBoxID() == id) {
-					board[x][y].cantBe(number);
+					if(board[k][i].getNumber() == 0) {
+						board[k][i].cantBe(number);
+					}
 				}
 			}
 		}
 		board[x][y].setNumber(number);
-		
 	}
 	
 	
@@ -119,15 +120,14 @@ public class Board{
 		
 		while(isSolved() == false)
 		{
-			display();
 			int changesMade = 0;
 			do
 			{
 				changesMade = 0;
 				changesMade += logic1();
-				changesMade += logic2();
-				changesMade += logic3();
-				changesMade += logic4();
+				//changesMade += logic2();
+				//changesMade += logic3();
+				//changesMade += logic4();
 				if(errorFound())
 					break;
 			}while(changesMade != 0);
@@ -211,15 +211,17 @@ public class Board{
 		boolean potential = false;
 		int x = -1;
 		int y = -1;
+		int a = 0;
 		
 		for(int boxY = 0; boxY < 9; boxY+=3) {
 			for(int boxX = 0; boxX < 9; boxX+=3) {
-				for(int i = boxY; i < boxY+3; i++) {
-					for(int num = 1; num < 10; num ++) {
-						x = -1;
-						y = -1;
-						potential = false;
+				for(int num = 1; num < 10; num ++) {
+					x = -1;
+					y = -1;
+					potential = false;
+					for(int i = boxY; i < boxY+3; i++) {
 						for(int k = boxX; k < boxX+3; k++) {
+							System.out.println(a++);
 							if(board[k][i].canBe(num) && board[k][i].getNumber()==0) {
 								if(x!=-1) {
 									potential = false;
@@ -270,7 +272,12 @@ public class Board{
 	 * any number.
 	 */
 	public boolean errorFound() {	
-		//make compiler happy while coding other bits
+		for(int i = 0; i < 9; i++) {
+			for(int k = 0; k < 9; k++) {
+				if(board[i][k].numberOfPotentials() == 0)
+					return false;
+			}
+		}
 		return true;
 	}
 }

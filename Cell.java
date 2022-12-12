@@ -19,9 +19,7 @@ public class Cell {
 	///TODO: canBe 
 	//This method returns TRUE or False depending on whether the cell has the potential to be number
 	public boolean canBe(int number) {
-		if(potential[number])
-			return true;
-		return false;
+		return potential[number];
 	}
 	
 	///TODO: cantBe
