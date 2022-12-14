@@ -59,6 +59,9 @@ public class Cell {
 	// This method sets the number for the cell but also sets all of the potentials for the cell (except for the solved number)
 	//		to be false
 	public void setNumber(int number) {
+		if(this.number!=0) {
+			System.out.println("Overwrite occured");
+		}
 		this.number = number;
 		for(int i = 0; i < 10; i++) {
 			potential[i] = false;

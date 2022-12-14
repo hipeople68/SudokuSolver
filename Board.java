@@ -103,7 +103,7 @@ public class Board{
 		int id = board[x][y].getBoxID();
 		for(int i = 0; i < 9; i++) {
 			for(int k = 0; k < 9; k++) {
-				if(i ==y || k == x || board[k][i].getBoxID() == id) {
+				if(i == y || k == x || board[k][i].getBoxID() == id) {
 					if(board[k][i].getNumber() == 0) {
 						board[k][i].cantBe(number);
 					}
@@ -131,6 +131,8 @@ public class Board{
 				if(errorFound())
 					break;
 			}while(changesMade != 0);
+				if(errorFound())
+					break;
 	
 		}			
 		
@@ -196,6 +198,31 @@ public class Board{
 				}
 			}
 		}
+		for(int k = 0; k < 9; k++) {
+			for(int num = 1; num < 10; num++) {
+				x = -1;
+				y = -1;
+				potential = false;
+				for(int i = 0; i < 9; i++) {
+					if(board[k][i].canBe(num) && board[k][i].getNumber()==0) {
+						if(x!=-1) {
+							potential = false;
+							break;
+						}
+						else {
+							x = k;
+							y = i;
+							potential = true;
+						}
+					}
+				}
+				if(potential) {
+					solve(x, y, num);
+					System.out.println("2");
+					changesMade++;
+				}
+			}
+		}
 			
 		return changesMade;
 	}
@@ -234,12 +261,12 @@ public class Board{
 								}
 							}
 						}
-						if(potential) {
-							//System.out.println("pog");
-							System.out.println("3");
-							solve(x, y, num);
-							changesMade++;
-						}
+					}
+					if(potential) {
+						//System.out.println("pog");
+						System.out.println("3");
+						solve(x, y, num);
+						changesMade++;
 					}
 				}
 			}
@@ -275,9 +302,9 @@ public class Board{
 		for(int i = 0; i < 9; i++) {
 			for(int k = 0; k < 9; k++) {
 				if(board[i][k].numberOfPotentials() == 0)
-					return false;
+					return true;
 			}
 		}
-		return true;
+		return false;
 	}
 }
