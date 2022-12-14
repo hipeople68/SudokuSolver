@@ -88,7 +88,7 @@ public class Board{
 					if(k%4==0)
 						System.out.print("| ");
 					else
-						System.out.print(board[k-(1+k/4)][i-(1+i/4)].getNumber()+" ");
+						System.out.print(board[i-(1+i/4)][k-(1+k/4)].getNumber()+" ");
 				}
 			}
 			System.out.println();
