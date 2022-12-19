@@ -3,7 +3,7 @@ public class SudokuSolver {
 	public static void main(String[] args)throws Exception {
 		
 		Board puzzle = new Board();
-		puzzle.loadPuzzle("easy");
+		puzzle.loadPuzzle("medium");
 		puzzle.display();
 		puzzle.logicCycles();
 		puzzle.display();

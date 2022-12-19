@@ -1,5 +1,5 @@
-import java.io.File;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Board{
 	
@@ -9,6 +9,7 @@ public class Board{
 	 */
 
 	private Cell[][] board = new Cell[9][9];
+	private Stack<Cell[][]> stack = new Stack<Cell[][]>();
 	
 	//The variable "level" records the level of the puzzle being solved.
 	private String level = "";
@@ -113,7 +114,6 @@ public class Board{
 		board[x][y].setNumber(number);
 	}
 	
-	
 	//logicCycles() continuously cycles through the different logic algorithms until no more changes are being made.
 	public void logicCycles()throws Exception
 	{
@@ -125,9 +125,9 @@ public class Board{
 			{
 				changesMade = 0;
 				changesMade += logic1();
-				//changesMade += logic2();
-				//changesMade += logic3();
-				//changesMade += logic4();
+				changesMade += logic2();
+				changesMade += logic3();
+				changesMade += logic4();
 				if(errorFound())
 					break;
 			}while(changesMade != 0);
@@ -238,7 +238,6 @@ public class Board{
 		boolean potential = false;
 		int x = -1;
 		int y = -1;
-		int a = 0;
 		
 		for(int boxY = 0; boxY < 9; boxY+=3) {
 			for(int boxX = 0; boxX < 9; boxX+=3) {
@@ -248,7 +247,6 @@ public class Board{
 					potential = false;
 					for(int i = boxY; i < boxY+3; i++) {
 						for(int k = boxX; k < boxX+3; k++) {
-							System.out.println(a++);
 							if(board[k][i].canBe(num) && board[k][i].getNumber()==0) {
 								if(x!=-1) {
 									potential = false;
@@ -288,9 +286,89 @@ public class Board{
 		 * This also tracks the number of cells that it solved as it traversed the board and returns that number.
 		 */
 	public int logic4()
+		//stolen from Mr. Chow
 	{
 		int changesMade = 0;
+
+		for(int row = 0; row < 9; row++) {
+			for(int column = 0; column < 9; column++) {
+				if(board[row][column].numberOfPotentials() == 2) {
+					int firstPotential = board[row][column].getFirstPotential();
+					int secondPotential = board[row][column].getSecondPotential();
+					for(int search = column+1; search < 9; search++) {
+						if(board[row][search].numberOfPotentials() == 2 && board[row][search].getFirstPotential() == firstPotential && board[row][search].getSecondPotential() == secondPotential) {
+							for(int x = 0; x < 9; x++) {
+								if(x == search || x == column)
+									continue;
+								else {
+									if(board[row][x].canBe(firstPotential)) {
+										board[row][x].cantBe(firstPotential);
+										changesMade++;
+									}
+									if(board[row][x].canBe(secondPotential)) {
+										board[row][x].cantBe(secondPotential);
+										changesMade++;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		for(int column = 0; column < 9; column++) {
+			for(int row = 0; row < 9; row++) {
+				if(board[row][column].numberOfPotentials() == 2) {
+
+					int firstPotential = board[row][column].getFirstPotential();
+					int secondPotential = board[row][column].getSecondPotential();
+
+					for(int search = row+1; search < 9; search++) {
+						if(board[search][column].numberOfPotentials() == 2 && board[search][column].getFirstPotential() == firstPotential && board[search][column].getSecondPotential() == secondPotential) {
+							for(int x = 0; x < 9; x++) {
+								if(x == search || x == row)
+									continue;
+								else {
+									if(board[x][column].canBe(firstPotential)) {
+										board[x][column].cantBe(firstPotential);
+										changesMade++;
+									}
+									if(board[x][column].canBe(secondPotential)) {
+										board[x][column].cantBe(secondPotential);
+										changesMade++;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 		return changesMade;
+	}
+
+	public void guess() {
+		Cell[][] tmp = new Cell[9][9];
+		for(int i=0; i < 9; i++) {
+			for(int k=0; k < 9; k++) {
+				tmp[i][k] = new Cell();
+				tmp[i][k].setNumber(board[i][k].getNumber());
+				tmp[i][k].setBoxID(board[i][k].getBoxID());
+				for(int j=1; j < 10; j++) {
+					if(!board[i][k].canBe(j)) {
+						tmp[i][k].cantBe(j);
+					}
+				}
+			}
+		}
+		stack.push(tmp);
+		for(int i=0; i < 9; i++) {
+			for(int k=0; k<9; k++) {
+				if(tmp[i][k].getNumber()==0) {
+					solve(i, k, tmp[i][k].getFirstPotential());
+				}
+			}
+		}
 	}
 	
 	
