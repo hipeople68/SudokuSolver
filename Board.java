@@ -10,6 +10,8 @@ public class Board{
 
 	private Cell[][] board = new Cell[9][9];
 	private Stack<Cell[][]> stack = new Stack<Cell[][]>();
+	private Stack<Integer> xcord = new Stack<Integer>();
+	private Stack<Integer> ycord = new Stack<Integer>();
 	
 	//The variable "level" records the level of the puzzle being solved.
 	private String level = "";
@@ -128,12 +130,25 @@ public class Board{
 				changesMade += logic2();
 				changesMade += logic3();
 				changesMade += logic4();
-				if(errorFound())
-					break;
+
+				//if(errorFound()) {
+				//	board = stack.pop();
+				//	int x = xcord.pop();
+				//	int y = ycord.pop();
+				//	board[x][y].cantBe(board[x][y].getFirstPotential());
+				//	System.out.println("rollback");
+				//}
 			}while(changesMade != 0);
-				if(errorFound())
-					break;
-	
+			guess();
+			if(errorFound()) {
+				board = stack.pop();
+				int x = xcord.pop();
+				int y = ycord.pop();
+				if(board[x][y].getFirstPotential() != 0) {
+					board[x][y].cantBe(board[x][y].getFirstPotential());
+					System.out.println("rollback");
+				}
+			}
 		}			
 		
 	}
@@ -364,11 +379,22 @@ public class Board{
 		stack.push(tmp);
 		for(int i=0; i < 9; i++) {
 			for(int k=0; k<9; k++) {
-				if(tmp[i][k].getNumber()==0) {
-					solve(i, k, tmp[i][k].getFirstPotential());
+				if(board[i][k].getNumber()==0) {
+					solve(i, k, board[i][k].getFirstPotential());
+					xcord.push(i);
+					ycord.push(k);
+					System.out.println("guess");
+					display();
+					return;
 				}
 			}
 		}
+		//try {
+		//	logicCycles();
+		//}
+		//catch(Exception e) {
+		//	System.out.println("pain");
+		//}
 	}
 	
 	
