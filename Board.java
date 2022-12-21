@@ -12,6 +12,7 @@ public class Board{
 	private Stack<Cell[][]> stack = new Stack<Cell[][]>();
 	private Stack<Integer> xcord = new Stack<Integer>();
 	private Stack<Integer> ycord = new Stack<Integer>();
+	private Stack<Integer> numStack = new Stack<Integer>();
 	
 	//The variable "level" records the level of the puzzle being solved.
 	private String level = "";
@@ -97,6 +98,21 @@ public class Board{
 			System.out.println();
 		}
 	}
+	public void displayP() {
+		for(int i = 0; i < 13; i++) {
+			for(int k = 0; k < 13; k++) {
+				if(i%4==0)
+					System.out.print("--");
+				else {
+					if(k%4==0)
+						System.out.print("| ");
+					else
+						System.out.print(board[i-(1+i/4)][k-(1+k/4)].numberOfPotentials()+" ");
+				}
+			}
+			System.out.println();
+		}
+	}
 	
 	///TODO: solve
 	/*This method solves a single cell at x,y for number.  It also must adjust the potentials of the remaining cells in the same row,
@@ -119,7 +135,6 @@ public class Board{
 	//logicCycles() continuously cycles through the different logic algorithms until no more changes are being made.
 	public void logicCycles()throws Exception
 	{
-		
 		while(isSolved() == false)
 		{
 			int changesMade = 0;
@@ -131,26 +146,26 @@ public class Board{
 				changesMade += logic3();
 				changesMade += logic4();
 
-				//if(errorFound()) {
-				//	board = stack.pop();
-				//	int x = xcord.pop();
-				//	int y = ycord.pop();
-				//	board[x][y].cantBe(board[x][y].getFirstPotential());
-				//	System.out.println("rollback");
-				//}
-			}while(changesMade != 0);
-			guess();
-			if(errorFound()) {
-				board = stack.pop();
-				int x = xcord.pop();
-				int y = ycord.pop();
-				if(board[x][y].getFirstPotential() != 0) {
+				while(errorFound()) {
+					board = stack.pop();
+					int x = xcord.pop();
+					int y = ycord.pop();
+					int num = numStack.pop();
 					board[x][y].cantBe(board[x][y].getFirstPotential());
 					System.out.println("rollback");
 				}
+			}while(changesMade != 0);
+			if(!isSolved())
+				guess();
+			while(errorFound()) {
+				board = stack.pop();
+				int x = xcord.pop();
+				int y = ycord.pop();
+				int num = numStack.pop();
+				board[x][y].cantBe(num);
+				System.out.println("rollback");
 			}
 		}			
-		
 	}
 	
 	
@@ -383,8 +398,10 @@ public class Board{
 					solve(i, k, board[i][k].getFirstPotential());
 					xcord.push(i);
 					ycord.push(k);
+					numStack.push(board[i][k].getFirstPotential());
 					System.out.println("guess");
 					display();
+					displayP();
 					return;
 				}
 			}

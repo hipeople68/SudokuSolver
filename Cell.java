@@ -46,7 +46,7 @@ public class Cell {
 			if(potential[i])
 				return i;
 		}
-		return 0;
+		return -1;
 	}
 	public int getSecondPotential() {
 		for(int i = getFirstPotential()+1; i < 10; i++) {
