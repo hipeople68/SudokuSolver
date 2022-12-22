@@ -113,6 +113,21 @@ public class Board{
 			System.out.println();
 		}
 	}
+	public void displayPain(Cell[][] tmp) {
+		for(int i = 0; i < 13; i++) {
+			for(int k = 0; k < 13; k++) {
+				if(i%4==0)
+					System.out.print("--");
+				else {
+					if(k%4==0)
+						System.out.print("| ");
+					else
+						System.out.print(tmp[i-(1+i/4)][k-(1+k/4)].numberOfPotentials()+" ");
+				}
+			}
+			System.out.println();
+		}
+	}
 	
 	///TODO: solve
 	/*This method solves a single cell at x,y for number.  It also must adjust the potentials of the remaining cells in the same row,
@@ -384,13 +399,23 @@ public class Board{
 				tmp[i][k] = new Cell();
 				tmp[i][k].setNumber(board[i][k].getNumber());
 				tmp[i][k].setBoxID(board[i][k].getBoxID());
-				for(int j=1; j < 10; j++) {
-					if(!board[i][k].canBe(j)) {
-						tmp[i][k].cantBe(j);
-					}
-				}
+				tmp[i][k].clone(board[i][k].getPotential());
+				
+				//I have no clue why this doesn't work
+				//for(int j=1; j < 10; j++) {
+				//	if(!board[i][k].canBe(j)) {
+				//		System.out.print(j+" ");
+				//		tmp[i][k].cantBe(j);
+				//	}
+				//}
+				//System.out.prinln()
+				//System.out.println("x");
 			}
 		}
+		//System.out.println("HI");
+		//displayP();
+		//System.out.println("BYE");
+		//displayPain(tmp);
 		stack.push(tmp);
 		for(int i=0; i < 9; i++) {
 			for(int k=0; k<9; k++) {
@@ -400,8 +425,8 @@ public class Board{
 					ycord.push(k);
 					numStack.push(board[i][k].getFirstPotential());
 					System.out.println("guess");
-					display();
-					displayP();
+					//display();
+					//displayP();
 					return;
 				}
 			}

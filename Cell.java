@@ -89,5 +89,10 @@ public class Cell {
 	public void setBoxID(int boxID) {
 		this.boxID = boxID;
 	}
+	public void clone(boolean[] tmp) {
+		for(int i = 0; i < 10; i++) {
+			potential[i] = tmp[i];
+		}
+	}
 
 }
